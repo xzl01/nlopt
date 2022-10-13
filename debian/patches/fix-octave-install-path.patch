@@ -1,0 +1,28 @@
+Description: Fix installation path of Octave files
+ Without this patch, the Octave files would be installed in a path that contains
+ the version number of the Octave version against which they were compiled.
+ Thus, the package would need to be recompiled after each new (minor) version of
+ Octave.
+ The present patch makes the installation path independent from the Octave
+ version (of course, rebuilds may still be needed because of ABI bumps).
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-02-05
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/cmake/FindOctave.cmake
++++ b/cmake/FindOctave.cmake
+@@ -72,11 +72,11 @@ if (OCTAVE_CONFIG_EXECUTABLE)
+                     OUTPUT_VARIABLE OCTAVE_ROOT_DIR
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+ 
+-  execute_process (COMMAND ${OCTAVE_CONFIG_EXECUTABLE} --m-site-dir
++  execute_process (COMMAND ${OCTAVE_CONFIG_EXECUTABLE} -p LOCALFCNFILEDIR
+                     OUTPUT_VARIABLE OCTAVE_M_SITE_DIR
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+ 
+-  execute_process (COMMAND ${OCTAVE_CONFIG_EXECUTABLE} --oct-site-dir
++  execute_process (COMMAND ${OCTAVE_CONFIG_EXECUTABLE} -p LOCALOCTFILEDIR
+                     OUTPUT_VARIABLE OCTAVE_OCT_SITE_DIR
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+ 

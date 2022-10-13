@@ -1,0 +1,432 @@
+nlopt (2.7.1-4) UNRELEASED; urgency=medium
+
+  * update
+
+ -- Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>  Thu, 07 Jul 2022 15:50:32 +0800
+
+nlopt (2.7.1-4) unstable; urgency=medium
+
+  * Team upload
+  * mkdocs-1.3.patch: new patch, fixes FTBFS against mkdocs 1.3.0
+    (Closes: #1009183)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 14 Apr 2022 17:10:53 +0200
+
+nlopt (2.7.1-3) unstable; urgency=medium
+
+  * Team upload
+
+  [ Rafael Laboissière ]
+  * Install examples (unit tests)
+    + d/libnlopt-dev.examples: New file
+    + d/libnlopt-dev.links: Drop file
+    + d/rules: Keep the /usr/share/doc/libnlopt-dev/ directory
+
+  [ Sébastien Villemot ]
+  * octave-private-libraries.patch: new patch, fixes FTBFS against octave
+    6.4.0-2
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 17 Jan 2022 11:31:45 +0100
+
+nlopt (2.7.1-2) unstable; urgency=medium
+
+  * Team upload
+  * d/rules: Install the python3.* extension to the correct path.
+    Thanks to Steve Langasek for the patch (Closes: #1001363)
+
+ -- Rafael Laboissière <rafael@debian.org>  Sun, 12 Dec 2021 18:02:48 -0300
+
+nlopt (2.7.1-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 2.7.1
+  * d/p/detect-guile-3.0.patch: Drop patch (applied upstream)
+  * d/p/set_cxx_soname.patch: Reflect upstream changes
+  * d/copyright: Reflect upstream changes
+  * d/watch:
+    + Drop option filenamemangle
+    + Drop "version" and "script" parts of the selection rule
+  * d/libnlopt-cxx0.lintian-overrides: Add override for exit-in-shared-library
+  * Cope with new multiarch installation path for Python files
+
+ -- Rafael Laboissière <rafael@debian.org>  Wed, 08 Dec 2021 08:23:51 -0300
+
+nlopt (2.7.0-5) unstable; urgency=medium
+
+  * Team upload
+  * d/rules: Call dh_numpy3 in the override for the dh_auto_install-arch rule.
+    This generates the mandatory dependency on python3-numpy-abiN for the
+    python3-nlopt package.
+  * d/control: Bump Standards-Version to 4.6.0 (no changes needed)
+  * d/copyright: Update copyright year for the debian/* files
+
+ -- Rafael Laboissière <rafael@debian.org>  Fri, 12 Nov 2021 04:46:54 -0300
+
+nlopt (2.7.0-4) unstable; urgency=medium
+
+  * Team upload
+  * d/libnlopt-cxx0.symbols: Remove file.
+    The mangling of C++ symbols varies substantially from one
+    architecture to the other, what makes impractical the maintenance
+    of the symbols file.
+  * d/p/set_cxx_soname.patch: Fix line number
+  * d/rules: Specify a separate arch-indep override for dh_link
+  * d/libnlopt-cxx0.lintian-overrides: Override Lintian warning
+    no-symbols-control-file
+
+ -- Rafael Laboissière <rafael@debian.org>  Mon, 23 Nov 2020 11:27:29 -0300
+
+nlopt (2.7.0-3) unstable; urgency=medium
+
+  * Team upload
+  * d/libnlopt-cxx0.symbols: Remove file.
+    The mangling of C++ symbols varies substantially from one
+    architecture to the other, what makes impractical the maintenance
+    of the symbols file.
+  * d/p/set_cxx_soname.patch: Fix line number
+  * d/rules: Specify a separate arch-indep override for dh_link
+
+ -- Rafael Laboissière <rafael@debian.org>  Mon, 23 Nov 2020 08:51:07 -0300
+
+nlopt (2.7.0-2) unstable; urgency=medium
+
+  * Team upload
+  * d/libnlopt-cxx0.symbols: New file
+
+ -- Rafael Laboissière <rafael@debian.org>  Fri, 20 Nov 2020 15:13:52 -0300
+
+nlopt (2.7.0-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 2.7.0
+  * d/p/set_cxx_soname.patch: Refresh for new upstream version
+  * d/copyright:
+    + Update upstream copyright year
+    + Add myself as copyright holder of debian/* files
+    + Use secure URL in Format field
+  * Use Github URL for upstream Homepage and Source
+  * d/copyright:
+    + Simplify stanzas and general cleanup
+    + Add full GPL-3+ License terms
+  * d/control:
+     + Bump debhelper compatibility level to 13
+     + Bump Standards-Version to 4.5.1 (no changes needed)
+     + Add Rules-Requires-Root: no
+  * d/libnlopt0.lintian-overrides:
+    + Use correct Litian tag exit-in-shared-library
+    + Drop override for hardening-no-stackprotector
+  * d/libnlopt-guile0.lintian-overrides: Drop overrides
+  * Migrate to guile-3.0 (Closes: 969695)
+    + d/control: Set build-dependency and dependency on guile-3.0(-dev)
+    + d/p/detect-guile-3.0.patch: New patch
+  * Use system (Sphinx) fonts instead of shipping them
+    + d/control: nlopt-doc depends on sphinx-rtd-theme-common
+    + d/rules: Remove site/fonts/ directory before invoking dh_links
+    + d/nlopt-doc.links: New file
+  * d/rules: Use execute_(before|after)_ instead of override_
+    debhelper commands
+  * d/u/metadata: New file
+  * d/clean: New file
+  * d/nlopt-doc.lintian-overrides: Add override for compressed-duplicate
+  * d/u/metadata: New file
+  * Add DEP-3 headers to the Debian patches
+  * d/libnlopt0.symbols: Update list of symbols for new upstream version
+
+ -- Rafael Laboissière <rafael@debian.org>  Thu, 19 Nov 2020 05:05:39 -0300
+
+nlopt (2.6.1-8) unstable; urgency=medium
+
+  * Team upload.
+  * fix-octave-install-path.patch: new patch, fixes the installation path of
+    Octave files, so that the package needs not to be rebuilt at every new
+    upstream version of Octave.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 05 Feb 2020 15:15:38 +0100
+
+nlopt (2.6.1-7) unstable; urgency=medium
+
+  * Team upload.
+  * Build-Depends: dh-python. Closes: #945128.
+  * Build python extension for all available python3 versions.
+    Closes: #943634.
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 30 Nov 2019 16:50:25 +0800
+
+nlopt (2.6.1-6) unstable; urgency=medium
+
+  * Team upload.
+  * d/control: Bump dependency on dh-octave to >= 0.7.1
+
+ -- Rafael Laboissiere <rafael@debian.org>  Thu, 14 Nov 2019 12:01:24 -0300
+
+nlopt (2.6.1-5) unstable; urgency=medium
+
+  * Team upload.
+  * fix installation of nlopt.hpp in libnlopt-cxx-dev
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 08 Oct 2019 16:53:59 +0800
+
+nlopt (2.6.1-4) unstable; urgency=medium
+
+  * Team upload.
+  * debian/tests Depends: python3-numpy
+  * Standards-Version: 4.4.1
+  * install cmake scripts in libnlopt-dev. Closes: #862390.
+     - cmake/nlopt configures C-only build (matching pkg-config nlopt)
+     - cmake/nlopt_cxx configures default build (with C++ support,
+       matching pkg-config nlopt_cxx)
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 08 Oct 2019 16:40:24 +0800
+
+nlopt (2.6.1-3) unstable; urgency=medium
+
+  * Team upload.
+  * run dh_auto_install for binary-arch builds only.
+
+ -- Drew Parsons <dparsons@debian.org>  Tue, 08 Oct 2019 00:15:40 +0800
+
+nlopt (2.6.1-2) unstable; urgency=medium
+
+  * Team upload.
+  * No change upload, needed for testing migration (because arch:all
+    packages of previous upload were not built on buildds, since they went
+    through the NEW queue)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 07 Oct 2019 14:24:49 +0200
+
+nlopt (2.6.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release
+    - applies all debian patches
+    - update debian/libnlopt0.symbols
+  * drop Files-Excluded in debian/copyright (pdf files no longer
+    shipped in tarball) and refresh debian/watch to uscan v4
+  * Build using cmake
+    - debian patch set_cxx_soname.patch sets library name to
+      libnlopt_cxx.so for the default build with C++ algorithms
+  * Build-Depends: swig
+  * provide nlopt-doc package with HTML documentation
+    - debian patch docs_skip_mdx_math.patch skips mdx_math in docs.
+      It is provided by python-markdown-math which is not packaged yet.
+      Needed to render inline TeX maths e.g. $lb_i = ub_i$, so we'll
+      manage without that for now.
+    - Depends: libjs-highlight.js, libjs-jquery, libjs-mathjax
+  * libnlopt-cxx-dev installs nlopt_cxx.pc pkgconfig file for C++ build
+  * add debian/tests (autopkgtest)
+
+ -- Drew Parsons <dparsons@debian.org>  Thu, 26 Sep 2019 11:58:45 +0800
+
+nlopt (2.4.2+dfsg-10) unstable; urgency=medium
+
+  * Team upload.
+  * source upload to migrate python3-nlopt to testing
+
+ -- Drew Parsons <dparsons@debian.org>  Sun, 15 Sep 2019 13:24:51 +0800
+
+nlopt (2.4.2+dfsg-9) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Sergey B Kirpichev ]
+  * Removed .gitignore (conflict with upstream one)
+  * Bump up Standards-Version (to 4.3.0)
+  * Remove Testsuite header (no tests yet)
+  * Provide python3-nlopt package
+  * Adapt watch file to track Github
+  * Switch to guile-2.2 (Closes: #885224)
+
+  [ Drew Parsons ]
+  * Standards-Version: 4.4.0
+  * debhelper compatibility level 12 (debhelper-compat (= 12))
+  * drop python-nlopt (Python2 is deprecated). Closes: #937147.
+
+ -- Drew Parsons <dparsons@debian.org>  Sat, 14 Sep 2019 03:51:55 +0800
+
+nlopt (2.4.2+dfsg-8) unstable; urgency=medium
+
+  * Team upload
+  * Add missing Depends: libnlopt-cxx0 to libnlopt-cpp-dev
+    Closes: #903347
+  * Standards-Version: 4.1.5
+  * Files-Excluded in d/copyright to document repackaging
+
+
+ -- Andreas Tille <tille@debian.org>  Mon, 16 Jul 2018 08:02:26 +0200
+
+nlopt (2.4.2+dfsg-7) unstable; urgency=medium
+
+  * Team upload.
+  * libnlopt-cpp-dev actually Depends: libnlopt-dev (not only ibnlopt0)
+
+ -- Andreas Tille <tille@debian.org>  Fri, 06 Jul 2018 15:35:09 +0200
+
+nlopt (2.4.2+dfsg-6) unstable; urgency=medium
+
+  * Team upload.
+  * octave4.4.patch: new patch, fixes FTBFS against Octave 4.4
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 11 Jun 2018 19:51:46 +0200
+
+nlopt (2.4.2+dfsg-5) unstable; urgency=medium
+
+  * Team upload.
+  * Provide C++ interface
+    Closes: #855600
+  * hardening=+all
+  * cme fix dpkg-control
+  * Remove ancient Python version field
+
+ -- Andreas Tille <tille@debian.org>  Tue, 29 May 2018 15:57:03 +0200
+
+nlopt (2.4.2+dfsg-4) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Rafael Laboissiere ]
+  * Build-depend on dh-octave instead of octave-pkg-dev (Closes: #890088)
+
+  [ Sébastien Villemot ]
+  * Update Vcs-* fields for salsa.
+  * Bump to debhelper compat level 11, simplify debian/rules.
+  * Add Testsuite: autopkgtest-pkg-python.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 13 Feb 2018 12:25:27 +0100
+
+nlopt (2.4.2+dfsg-3) unstable; urgency=medium
+
+  [ Afif Elghraoui ]
+  * initial upstream branch
+  * Imported Upstream version 2.4.2+dfsg
+
+  [ Sergey B Kirpichev ]
+  * override_dh_auto_reconf -> override_dh_autoreconf (Closes: #834653)
+  * Bump up Standards-Version (to 4.0.0)
+  * Set "Multi-Arch: same" for libnlopt-dev and octave-nlopt
+  * Fix some spelling warnings from lintian
+  * Init .gitignore
+  * Adapt Vcs-* fields for Git
+
+ -- Sergey B Kirpichev <skirpichev@gmail.com>  Sat, 08 Jul 2017 16:19:35 +0300
+
+nlopt (2.4.2+dfsg-2) unstable; urgency=medium
+
+  * Team upload.
+  * d/p/octave-4.0.patch: new patch, fixes FTBFS against Octave 4.0.
+    (Closes: #792826)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 20 Jul 2015 20:03:29 +0200
+
+nlopt (2.4.2+dfsg-1) unstable; urgency=low
+
+  * Install Octave files into private directories (Closes: #734044,
+    thanks to Rafael Laboissiere)
+  * Fix *.oct path in override_dh_shlibdeps
+  * Call libtoolize with --force to update libtool.m4 (thanks
+    to Matthias Klose)
+  * Imported Upstream version 2.4.2+dfsg
+  * Migrate to guile-2.0 (Closes: #746009)
+  * Removed obsoleted patch
+
+ -- Sergey B Kirpichev <skirpichev@gmail.com>  Tue, 20 May 2014 23:27:49 +0400
+
+nlopt (2.4.1+dfsg-1) unstable; urgency=low
+
+  * New upstream version (Closes: #728556)
+  * Bump up Standards-Version (to 3.9.5)
+  * Change Section to libs for libnlopt-guile0
+
+ -- Sergey B Kirpichev <skirpichev@gmail.com>  Tue, 03 Dec 2013 18:19:26 +0400
+
+nlopt (2.4+dfsg-1) unstable; urgency=low
+
+  * New upstream version
+  * Fix lintian error: vcs-field-not-canonical
+  * Fix permissions on debian/orig-tar.sh
+  * Remove patches, applied by upstream
+  * Refresh patches for the new upstream release
+  * Update debian/libnlopt0.symbols
+  * Change octave-nlopt priority to optional (See: #706761)
+  * Override lintian error(X) shlib-calls-exit for libnlopt0
+
+ -- Sergey B Kirpichev <skirpichev@gmail.com>  Sat, 16 Nov 2013 15:27:46 +0400
+
+nlopt (2.3+dfsg-2) unstable; urgency=low
+
+  [ Tim Gardner ]
+  * Add 04-python-includes.patch to detect correct include
+    python paths (Closes: #697638)
+
+  [ Sergey B Kirpichev ]
+  * Removed debian/docs
+  * Drop unused override for octave-nlopt: missing-dependency-on-libc
+  * Bump up Standards-Version (to 3.9.4)
+  * Ignore shared libraries in nlopt-python (fix postinst/rm-has-
+    useless-call-to-ldconfig lintian warning's)
+
+  [ Christophe Trophime ]
+  * Updated patches following DEP3 (python-includes.patch,
+    configure.patch and swig.patch)
+
+  [ Sergey B Kirpichev ]
+  * Added Forwarded: headers for patches 01-03
+  * Set octave-nlopt priority (optional -> extra), according to the policy
+  * Unfuzz patches with "quilt refresh -pab --no-index
+    --no-timestamps --diffstat"
+  * Renamed patches (foo_bar.patch -> foo-bar.patch, git-format-patch's
+    default naming scheme)
+  * Added missing Forwarded: headers for debian/patches/*
+  * Point to related bug for python-includes.patch
+  * Drop unused override for libnlopt-guile0
+  * Fix FTBFS dh_auto_test: error: unable to chdir to
+    debian/build (Closes: #718054)
+
+ -- Sergey B Kirpichev <skirpichev@gmail.com>  Wed, 16 Oct 2013 09:40:44 +0200
+
+nlopt (2.3+dfsg-1) unstable; urgency=low
+
+  [ Christophe Trophime ]
+  * fix lintian error
+  * fix override disparity
+
+  [ Sergey B Kirpichev ]
+  * New upstream version (Closes: #682273)
+  * Adopt machine-readable debian/copyright file format
+  * Add symbols control file for libnlopt.so
+  * Provide /usr/share/doc in libnlopt0 package, make symlinks for
+    others
+  * Simplify debian/rules
+  * Reformat debian/control, drop trailing spaces
+  * Fix some short/long descriptions
+  * Move manpages to libnlopt-dev, add nlopt.pc (Closes: #695659)
+  * Drop unused override (revert back "fix lintian error")
+  * Add shlibs file for libnlopt0
+  * Fix Depends
+  * Fix override disparities: change priority to optional and revert
+    back Section's for source package and libnlopt0 (revert back "fix
+    override disparity")
+  * Cleanup debian/README.source
+  * Update debian/libnlopt0.symbols for new release
+  * Drop get-orig-source target, repackage upstream tarball with uscan
+
+ -- Christophe Trophime <christophe.trophime@lncmi.cnrs.fr>  Wed, 12 Dec 2012 13:30:53 +0100
+
+nlopt (2.2.4+dfsg-2) unstable; urgency=low
+
+  [Sergey B Kirpichev]
+  * Install libnlopt_guile.so (Closes: #679619)
+  * Add multiarch support
+
+  [ Rafael Laboissiere ]
+  * debian/rules:
+      - Install the .oct file in the appropriate directory (Closes: #679617)
+
+  * Add Sergey B Kirpichev <skirpichev@gmail.com> to Uploaders
+
+ -- Christophe Trophime <christophe.trophime@lncmi.cnrs.fr>  Wed, 27 Jun 2012 12:05:11 +0200
+
+nlopt (2.2.4+dfsg-1) unstable; urgency=low
+
+  * Initial release (Closes: #610623)
+
+ -- Christophe Trophime <christophe.trophime@lncmi.cnrs.fr>  Tue, 07 Jun 2011 23:42:16 +0200

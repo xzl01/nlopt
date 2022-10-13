@@ -1,0 +1,227 @@
+Source: nlopt
+Maintainer: Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders: Christophe Trophime <christophe.trophime@lncmi.cnrs.fr>
+Section: math
+Priority: optional
+Build-Depends: debhelper-compat (= 13),
+               chrpath,
+               cmake,
+               dh-octave (>= 0.7.1),
+               dh-python,
+               python3-all-dev,
+               python3-numpy,
+               guile-3.0-dev,
+               swig
+Build-Depends-Indep: mkdocs,
+                     libjs-highlight.js,
+                     libjs-jquery,
+                     libjs-mathjax
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/science-team/nlopt
+Vcs-Git: https://salsa.debian.org/science-team/nlopt.git
+Homepage: https://github.com/stevengj/nlopt
+Rules-Requires-Root: no
+
+Package: libnlopt0
+Architecture: any
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: nonlinear optimization library
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package provides the shared libraries required to run programs
+ compiled with NLopt. To compile your own programs you also need to
+ install libnlopt-dev.
+
+Package: libnlopt-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libnlopt0 (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends}
+Description: nonlinear optimization library -- development package
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package contains the header files, static libraries and symbolic
+ links that developers using NLopt library will need.
+
+Package: libnlopt-cxx0
+Architecture: any
+Multi-Arch: same
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: nonlinear optimization library (C++ interface)
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package provides the shared libraries required to run programs
+ compiled with NLopt in C++. To compile your own programs you also need to
+ install libnlopt-cxx-dev.
+
+Package: libnlopt-cxx-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libnlopt-dev (= ${binary:Version}),
+         libnlopt-cxx0 (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends}
+Description: nonlinear optimization library -- development package for C++
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package contains the header files, static libraries and symbolic
+ links that developers using NLopt library with C++ will need.
+
+Package: python3-nlopt
+Architecture: any
+Section: python
+Depends: libnlopt-cxx0 (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${python3:Depends},
+         ${misc:Depends}
+Provides: ${python3:Provides}
+Description: nonlinear optimization library -- Python 3 bindings
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package contains the Python 3 bindings.
+
+Package: octave-nlopt
+Architecture: any
+Multi-Arch: same
+Depends: libnlopt-cxx0 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends},
+         ${octave:Depends}
+Description: nonlinear optimization library -- GNU Octave package
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package contains the module for the GNU Octave.
+
+Package: libnlopt-guile0
+Architecture: any
+Multi-Arch: same
+Section: libs
+Depends: libnlopt-cxx0 (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends},
+         guile-3.0
+Pre-Depends: ${misc:Pre-Depends}
+Description: nonlinear optimization library -- Guile bindings
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package contains the bindings for GNU Guile.
+
+Package: nlopt-doc
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends},
+         libjs-highlight.js,
+         libjs-jquery,
+         libjs-mathjax,
+         sphinx-rtd-theme-common
+Description: nonlinear optimization library (documentation)
+ NLopt is a free/open-source library for nonlinear optimization, providing
+ a common interface for a number of different free optimization routines
+ available online as well as original implementations of various other
+ algorithms. Its features include:
+ .
+    * Callable from C, C++, Fortran, GNU Octave, Python, GNU Guile, GNU R.
+    * A common interface for many different algorithms
+    * Support for large-scale optimization.
+    * Both global and local optimization algorithms.
+    * Algorithms using function values only (derivative-free) and also
+      algorithms exploiting user-supplied gradients.
+    * Algorithms for unconstrained optimization, bound-constrained optimization,
+      and general nonlinear inequality/equality constraints.
+ .
+ This package provides the HTML documentation for nlopt.

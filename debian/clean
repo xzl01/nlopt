@@ -1,0 +1,4 @@
+debian/test-guile
+debian/tmp-c-only/
+doc/site/
+obj-*/

@@ -1,0 +1,3 @@
+# The inclusion of both sitemap.xml and sitemap.xml.gz is done on
+# purpose by mkdocs.
+nlopt-doc: compressed-duplicate usr/share/doc/nlopt-doc/site/sitemap.xml.gz

@@ -1,0 +1,2 @@
+#!/bin/sh
+echo debian/tmp-c-only/usr/lib/${DEB_HOST_MULTIARCH}/libnlopt.so.* usr/lib/${DEB_HOST_MULTIARCH}

@@ -1,0 +1,6 @@
+#!/bin/sh
+echo usr/include
+echo debian/tmp-c-only/usr/lib/${DEB_HOST_MULTIARCH}/libnlopt.so usr/lib/${DEB_HOST_MULTIARCH}
+echo debian/tmp-c-only/usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/nlopt.pc usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig
+echo debian/tmp-c-only/usr/lib/${DEB_HOST_MULTIARCH}/cmake/nlopt usr/lib/${DEB_HOST_MULTIARCH}/cmake
+echo usr/share/man/man3/*

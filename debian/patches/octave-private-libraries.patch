@@ -1,0 +1,86 @@
+Description: Do not link against Octave libraries
+ Since Octave 5, the .oct files are no longer linked against Octave libraries.
+ And since Octave 6.4.0-2 in Debian, those libraries have been made private (as
+ does upstream by default), hence linking against them leads to a FTBFS.
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: no
+Last-Update: 2022-01-17
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/cmake/FindOctave.cmake
++++ b/cmake/FindOctave.cmake
+@@ -5,10 +5,6 @@
+ # This module defines: 
+ #  OCTAVE_EXECUTABLE           - octave interpreter
+ #  OCTAVE_INCLUDE_DIRS         - include path for mex.h, mexproto.h
+-#  OCTAVE_LIBRARIES            - required libraries: octinterp, octave, cruft
+-#  OCTAVE_OCTINTERP_LIBRARY    - path to the library octinterp
+-#  OCTAVE_OCTAVE_LIBRARY       - path to the library octave
+-#  OCTAVE_CRUFT_LIBRARY        - path to the library cruft
+ #  OCTAVE_VERSION_STRING       - octave version string
+ #  OCTAVE_MAJOR_VERSION        - major version
+ #  OCTAVE_MINOR_VERSION        - minor version
+@@ -88,10 +84,6 @@ if (OCTAVE_CONFIG_EXECUTABLE)
+                     OUTPUT_VARIABLE OCTAVE_INCLUDE_PATHS
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+ 
+-  execute_process (COMMAND ${OCTAVE_CONFIG_EXECUTABLE} -p OCTLIBDIR
+-                    OUTPUT_VARIABLE OCTAVE_LIBRARIES_PATHS
+-                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+-
+   execute_process (COMMAND ${OCTAVE_CONFIG_EXECUTABLE} -p OCTFILEDIR
+                     OUTPUT_VARIABLE OCTAVE_OCT_FILE_DIR
+                     OUTPUT_STRIP_TRAILING_WHITESPACE)
+@@ -122,25 +114,6 @@ find_program(OCTAVE_MKOCTFILE
+               NAMES mkoctfile
+           )
+ 	
+-find_library(OCTAVE_OCTINTERP_LIBRARY
+-              NAMES octinterp liboctinterp
+-              HINTS ${OCTAVE_LIBRARIES_PATHS}
+-          )
+-find_library(OCTAVE_OCTAVE_LIBRARY
+-              NAMES octave liboctave
+-              HINTS ${OCTAVE_LIBRARIES_PATHS}
+-          )
+-find_library(OCTAVE_CRUFT_LIBRARY
+-              NAMES cruft libcruft
+-              HINTS ${OCTAVE_LIBRARIES_PATHS}
+-          )
+-
+-set (OCTAVE_LIBRARIES ${OCTAVE_OCTINTERP_LIBRARY})
+-list (APPEND OCTAVE_LIBRARIES ${OCTAVE_OCTAVE_LIBRARY})
+-if (OCTAVE_CRUFT_LIBRARY)
+-  list (APPEND OCTAVE_LIBRARIES ${OCTAVE_CRUFT_LIBRARY})
+-endif ()
+-
+ find_path (OCTAVE_INCLUDE_DIR 
+             NAMES octave/oct.h
+             PATHS "${OCTAVE_INCLUDE_PATHS}/.."
+@@ -175,7 +148,7 @@ macro (octave_add_oct FUNCTIONNAME)
+     endif ()
+   endforeach ()
+   add_library (${FUNCTIONNAME} SHARED ${_SOURCES})
+-  target_link_libraries (${FUNCTIONNAME} ${OCTAVE_LIBRARIES} ${_LINK_LIBRARIES})
++  target_link_libraries (${FUNCTIONNAME} ${_LINK_LIBRARIES})
+   set_target_properties (${FUNCTIONNAME} PROPERTIES
+     PREFIX ""
+     SUFFIX  ".${_OCT_EXTENSION}"
+@@ -185,16 +158,12 @@ endmacro ()
+ 
+ # handle REQUIRED and QUIET options
+ include (FindPackageHandleStandardArgs)
+-find_package_handle_standard_args (Octave REQUIRED_VARS OCTAVE_EXECUTABLE OCTAVE_ROOT_DIR OCTAVE_INCLUDE_DIRS OCTAVE_LIBRARIES VERSION_VAR OCTAVE_VERSION_STRING)
++find_package_handle_standard_args (Octave REQUIRED_VARS OCTAVE_EXECUTABLE OCTAVE_ROOT_DIR OCTAVE_INCLUDE_DIRS VERSION_VAR OCTAVE_VERSION_STRING)
+ 
+ 
+ mark_as_advanced (
+   OCTAVE_OCT_FILE_DIR
+   OCTAVE_OCT_LIB_DIR
+-  OCTAVE_OCTINTERP_LIBRARY
+-  OCTAVE_OCTAVE_LIBRARY
+-  OCTAVE_CRUFT_LIBRARY
+-  OCTAVE_LIBRARIES
+   OCTAVE_INCLUDE_DIR
+   OCTAVE_INCLUDE_DIRS
+   OCTAVE_ROOT_DIR

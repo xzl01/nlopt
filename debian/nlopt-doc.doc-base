@@ -1,0 +1,11 @@
+Document: nlopt
+Title: User Manual for NLopt: nonlinear optimization
+Author: Steven G. Johnson <stevenj@alum.mit.edu>
+Abstract: This user manual describes the NLopt package,
+ its design and interface overview, generic installation instructions,
+ and a tutorial.
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/nlopt-doc/site/index.html
+Files: /usr/share/doc/nlopt-doc/site/*.html

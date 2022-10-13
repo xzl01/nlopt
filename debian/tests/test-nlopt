@@ -1,0 +1,59 @@
+#!/bin/sh
+set -efu
+
+cd test
+
+retval=0
+
+C_TESTS="box lorentzfit"
+for TEST in ${C_TESTS}; do
+  echo "running C test ${TEST}... "
+  gcc ${TEST}.c `pkg-config --libs nlopt` -o ${TEST}
+  if ./${TEST} 2>&1 >${TEST}.log; then
+    echo "ok"
+  else
+    retval=$?
+    echo "FAILED with return value $retval"
+  fi
+done
+
+TEST=t_fortran
+echo "running fortran test... "
+gfortran ${TEST}.f90 -I/usr/include `pkg-config --libs nlopt` -o ${TEST}
+if ./${TEST} 2>&1 >${TEST}.log; then
+  echo "ok"
+else
+  retval=$?
+  echo "FAILED with return value $retval"
+fi
+
+TEST=t_guile
+echo "running guile test... "
+if guile ./${TEST}.scm 2>&1 >${TEST}.log; then
+  echo "ok"
+else
+  retval=$?
+  echo "FAILED with return value $retval"
+fi
+
+TEST=t_octave
+echo "running octave test... "
+if octave ./${TEST}.m 2>&1 >${TEST}.log; then
+  echo "ok"
+else
+  retval=$?
+  echo "FAILED with return value $retval"
+fi
+
+TEST=t_python
+for pyver in $( py3versions -s ); do
+  echo "running $pyver test... "
+  if $pyver ./${TEST}.py 2>&1 >${TEST}-${pyver}.log; then
+    echo "ok"
+  else
+    retval=$?
+    echo "FAILED with return value $retval"
+  fi
+done
+
+(exit $retval)

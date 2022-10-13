@@ -1,0 +1,75 @@
+#!/usr/bin/make -f
+
+BUILDDIR = obj-$(shell dpkg-architecture  -q DEB_HOST_MULTIARCH)
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+export DH_ALWAYS_EXCLUDE=__pycache__
+
+PY3_DEFAULT = $(shell py3versions  -dv)
+PY3_ALT = $(shell py3versions  -rv | sed "s/$(PY3_DEFAULT)//")
+
+%:
+	dh $@  --buildsystem=cmake --with python3
+
+override_dh_auto_configure:
+	dh_auto_configure -a -- -DNLOPT_FORTRAN=ON -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python$(PY3_DEFAULT) -DCMAKE_SKIP_INSTALL_RPATH=TRUE
+	for py3alt in $(PY3_ALT); do dh_auto_configure -a --builddirectory=$(BUILDDIR)-python$${py3alt} -- -DNLOPT_FORTRAN=ON -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python$${py3alt} -DCMAKE_SKIP_INSTALL_RPATH=TRUE; done
+	dh_auto_configure -a --builddirectory=$(BUILDDIR)-c-only -- -DNLOPT_CXX=OFF -DNLOPT_PYTHON=OFF -DNLOPT_OCTAVE=OFF -DNLOPT_GUILE=OFF -DNLOPT_SWIG=OFF -DCMAKE_SKIP_INSTALL_RPATH=TRUE
+
+execute_after_dh_auto_build-arch:
+	for py3alt in $(PY3_ALT); do dh_auto_build --builddirectory=$(BUILDDIR)-python$${py3alt}; done
+	dh_auto_build --builddirectory=$(BUILDDIR)-c-only
+
+override_dh_auto_build-indep:
+	mkdocs build
+
+override_dh_auto_install-arch:
+	dh_auto_install -a
+	dh_auto_install -a --builddirectory=$(BUILDDIR)-c-only --destdir=debian/tmp-c-only
+	mv debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/nlopt.pc debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/nlopt_cxx.pc
+	sed "s/-lnlopt/-lnlopt_cxx/" -i debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig/nlopt_cxx.pc
+	dh_numpy3
+
+override_dh_auto_install-indep:
+
+override_dh_python3-arch:
+	distdir=debian/python3-nlopt/usr/lib/python3/dist-packages; \
+	mkdir -p $$distdir; \
+	for py3alt in $(PY3_ALT); do \
+	py3short=`echo $${py3alt} | sed "s/\.//g"`-`dpkg-architecture -qDEB_HOST_MULTIARCH`; \
+		cp $(BUILDDIR)-python$${py3alt}/src/swig/_nlopt.so $$distdir/_nlopt.cpython-$${py3short}.so; \
+		chrpath -d $$distdir/_nlopt.cpython-$${py3short}.so; \
+	done
+	dh_python3 -a
+
+override_dh_auto_test-indep:
+	echo No tests to run in arch-indep build.
+
+execute_after_dh_strip:
+	find debian/octave-nlopt/usr/lib -name *.oct | \
+		xargs strip --strip-unneeded --remove-section=.comment
+
+override_dh_makeshlibs:
+	dh_makeshlibs -X/usr/lib/python3/dist-packages
+
+execute_after_dh_shlibdeps:
+	dh_octave_substvar
+
+execute_after_dh_install-arch:
+	# Remove C++ header from C interface
+	find debian/libnlopt-dev -name nlopt.hpp -delete
+
+override_dh_installdocs-indep:
+	dh_installdocs --indep -X js/jquery
+	grep highlight.min.js debian/nlopt-doc/usr/share/doc/nlopt-doc/site/* -R -ls | xargs -r sed "s|src=\".*highlight.min.js\"|src=\"/usr/share/javascript/highlight.js/highlight.min.js\"|" -i
+	grep js/jquery debian/nlopt-doc/usr/share/doc/nlopt-doc/site/* -R -ls | xargs -r sed "s|src=\".*js/jquery*.min.js|src=\"/usr/share/javascript/jquery/jquery.min.js|" -i
+	grep -i mathjax.js debian/nlopt-doc/usr/share/doc/nlopt-doc/site/* -R -ls | xargs -r sed "s|src=\"https://cdn.mathjax.org/mathjax/latest/MathJax.js|src=\"/usr/share/javascript/mathjax/MathJax.js|" -i
+	grep github.min.css debian/nlopt-doc/usr/share/doc/nlopt-doc/site/* -R -ls | xargs -r sed "s|href=\".*github.min.css\"|src=\"/usr/share/javascript/highlight.js/styles/github.css\"|" -i
+
+execute_before_dh_link-arch:
+	for package in libnlopt-guile0 octave-nlopt python3-nlopt; do \
+		rm -rf debian/$$package/usr/share/doc/$$package; \
+	done
+
+execute_before_dh_link-indep:
+	rm -rf debian/nlopt-doc/usr/share/doc/nlopt-doc/site/fonts

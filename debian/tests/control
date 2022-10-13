@@ -1,0 +1,10 @@
+Tests: test-nlopt
+Depends: @,
+  gcc,
+  gfortran,
+  guile-2.2,
+  octave,
+  pkg-config,
+  python3-all,
+  python3-numpy
+Restrictions: allow-stderr

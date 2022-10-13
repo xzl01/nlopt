@@ -1,0 +1,21 @@
+Description: Provide nlopt-doc package with HTML documentation
+ Debian patch docs_skip_mdx_math.patch skips mdx_math in docs. It is
+ provided by python-markdown-math which is not packaged yet. Needed to
+ render inline TeX maths e.g. $lb_i = ub_i$, so we'll manage without
+ that for now.
+Author: Drew Parsons <dparsons@debian.org>
+Forwarded: not-needed
+Last-Update: 2019-09-26
+--- a/mkdocs.yml
++++ b/mkdocs.yml
+@@ -18,8 +18,8 @@
+         title: Table of Contents
+     - attr_list
+     - fenced_code
+-    - mdx_math:
+-        enable_dollar_delimiter: True
++#    - mdx_math:
++#        enable_dollar_delimiter: True
+ 
+ extra_javascript: ['https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML','mathjaxhelper.js']
+ 
