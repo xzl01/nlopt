@@ -1,8 +1,12 @@
-nlopt (2.7.1-4) UNRELEASED; urgency=medium
+nlopt (2.7.1-5) unstable; urgency=medium
 
-  * update
+  * Team Upload.
+  * Add maintscript to convert libnlopt-dev doc
+    symlink to directory (Closes: #1035629)
+  * Add a preinst to remove examples directory in libnlopt0
+    which should be present in -dev only
 
- -- Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>  Thu, 07 Jul 2022 15:50:32 +0800
+ -- Nilesh Patra <nilesh@debian.org>  Sun, 14 May 2023 09:35:20 +0000
 
 nlopt (2.7.1-4) unstable; urgency=medium
 
